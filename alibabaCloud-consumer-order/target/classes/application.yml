@@ -1,0 +1,19 @@
+server:
+  port: 82
+spring:
+  application:
+    name: nacos-order-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #配置Nacos地址
+#配置服务对nacos暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+#开启openFeign的日志
+logging:
+  level:
+    guo.order.client.PaymentClient: debug

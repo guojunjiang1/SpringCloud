@@ -1,0 +1,30 @@
+server:
+  port: 8401
+spring:
+  application:
+    name: alibabaCloud-sentinel-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #配置Nacos地址
+    sentinel:
+      transport:
+        #配置sentinel的地址
+        dashboard: localhost:8080
+        #默认的配置，若8719被占用，则会从8719开始依次＋1扫描，直至找到未被占用的端口
+        port: 8719
+      #将sentinel的配置持久化到nacos
+      datasource:
+        ds1:
+          nacos:
+            server-addr: localhost:8848
+            dataId: alibabaCloud-sentinel-service
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
+#配置服务对nacos暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

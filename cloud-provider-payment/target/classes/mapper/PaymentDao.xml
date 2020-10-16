@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="guo.payment.dao.PaymentDao">
+        <insert id="create" parameterType="guo.common.entity.Payment" keyColumn="id">
+            insert into payment(serial) values (#{serial});
+        </insert>
+
+        <resultMap id="guo1" type="guo.common.entity.Payment">
+            <id column="id" property="id"/>
+            <result column="serial" property="serial"/>
+        </resultMap>
+        <select id="getPaymentById" parameterType="Long" resultMap="guo1">
+            select * from payment where id=#{id};
+        </select>
+</mapper>

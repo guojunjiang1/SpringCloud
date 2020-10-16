@@ -1,0 +1,33 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态获取微服务的功能，通过服务名进行路由
+      #gateway会对请求的完整路径路由到微服务
+      #eg:http://localhost:9527/payment/get/1 路由到 http://localhost:8001/payment/get/1
+      routes:
+        - id: guo #自定义id
+          uri: lb://cloud-payment-provider #断言成功且过滤成功后，路由的微服务
+          #断言(以下所有条件为true时，可进行路由)
+          predicates:
+            - Path=/payment/** #与访问的路径相匹配
+            - After=2020-02-21T15:51:37.485+08:00[Asia/Shanghai] #在该时间之后，才能断言成功(类似的有Before Between)
+            #- Cookie=username,guo #指定请求必须携带 名称为username的cookie且value为guo
+            #- Header=X-Request-Id, \d+  #指定请求必须有 请求头要有X-Request-Id属性并且值为整数的正则表达式
+
+eureka:
+  client:
+    registerWithEureka: true #服务注册，是否将自己注册到Eureka服务中
+    fetchRegistry: true #服务发现，是否从Eureka中获取注册信息
+    serviceUrl: #Eureka客户端与Eureka服务端的交互地址，高可用状态配置对方的地址，单机状态配置自己（如果不配置则默认本机8761端口）
+      defaultZone: ${EUREKA_SERVER:http://localhost:7001/eureka/,http://localhost:7002/eureka/}
+  #在eureka图形化界面中显示的内容
+  instance:
+    prefer-ip-address:  true  #将自己的ip地址注册到Eureka服务中
+    instance-id: ${spring.application.name}:${server.port} #指定实例id，实例名称
+    hostname: cloud-gateway-service

@@ -1,0 +1,19 @@
+#自动去nacos上获取如下格式的文件
+# ${spring.application.name}-${spring.profile.active}.${spring.cloud.nacos.config.file-extension}
+# nacos-config-client-test.yaml（根据配置文件的内容，会去nacos上获取该文件）
+
+# nacos配置
+server:
+  port: 3377
+spring:
+  application:
+    name: nacos-config-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #Nacos服务注册中心地址
+      config:
+        server-addr: localhost:8848 #Nacos作为配置中心地址
+        file-extension: yaml #指定读取yaml格式的配置文件
+        group: guo #指定读取文件所属组名
+        namespace: 64be8729-cdfe-45c8-9ae5-797e78a1dd2c  #指定命名空间的Id

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="guo.seata.dao.OrderDao">
+        <insert id="create" parameterType="guo.seata.domain.Order">
+            insert into t_order(user_id,product_id,count,money,status) values (#{userId},#{productId},#{count},#{money},#{status});
+        </insert>
+
+        <update id="changeStatus">
+            update t_order set status=#{status} where user_id=#{userId};
+        </update>
+</mapper>

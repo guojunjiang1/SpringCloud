@@ -1,0 +1,36 @@
+server:
+  port: 3355
+spring:
+  application:
+    name: cloud-config-client
+  cloud:
+    #Config客户端配置
+    config:
+      label: master #分支名称
+      name: config #配置文件名称
+      profile: test #读取后缀名称   上述3个综合：通过配置中心读取master分支上config-test.yml的配置文件被读取
+      uri: http://localhost:3344 #配置中心地址
+#Bus的相关配置
+#rabbitmq相关配置 15672是Web管理界面的端口；5672是MQ访问的端口
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    registerWithEureka: true #服务注册，是否将自己注册到Eureka服务中
+    fetchRegistry: true #服务发现，是否从Eureka中获取注册信息
+    serviceUrl: #Eureka客户端与Eureka服务端的交互地址，高可用状态配置对方的地址，单机状态配置自己（如果不配置则默认本机8761端口）
+      defaultZone: ${EUREKA_SERVER:http://localhost:7001/eureka/,http://localhost:7002/eureka/}
+  #在eureka图形化界面中显示的内容
+  instance:
+    prefer-ip-address:  true  #将自己的ip地址注册到Eureka服务中
+    instance-id: ${spring.application.name}:${server.port} #指定实例id，实例名称
